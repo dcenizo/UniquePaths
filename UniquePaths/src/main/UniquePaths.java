@@ -20,18 +20,18 @@ public final class UniquePaths {
 	 * starting point to the final point moving only down and to the right.
 	 * <br>
 	 * @param startingPoint ,object of type Point indicating the starting position
-	 * 		can be 0,0 or other valid point of the grid
-	 * @param pFinalPoint ,object of type Point that indicates the limits of the grid
+	 * 		can be 0,0 or other valid point of the grid (Starting from 0)
+	 * @param pGridSize ,object of type Point that indicates the SIZE OF THE GRID (Starting from one)
 	 * @param pShowSolutions, Prints the possible paths if marked as true
 	 * @return, a integer representing the number of possible paths
 	 */
-	static int solve(Point startingPoint, Point pFinalPoint, boolean pShowSolutions){
+	static int solve(Point startingPoint, Point pGridSize, boolean pShowSolutions){
 		if (startingPoint.getX() >= 0 
-				&& startingPoint.getX() < pFinalPoint.getX()
+				&& startingPoint.getX() < pGridSize.getX()
 				&& startingPoint.getY() >= 0
-				&& startingPoint.getY() < pFinalPoint.getY()) {
+				&& startingPoint.getY() < pGridSize.getY()) {
 			
-			mFinalPoint = new Point(pFinalPoint.getX()-1, pFinalPoint.getY()-1);
+			mFinalPoint = new Point(pGridSize.getX()-1, pGridSize.getY()-1);
 			
 			ArrayList<Point> pointList = new ArrayList<Point>();
 			pointList.add(startingPoint);
@@ -39,17 +39,19 @@ public final class UniquePaths {
 			findNextMoves(pointList);
 			
 			if (pShowSolutions) {
+				System.out.println("\n");
 				for (String s : Solutions) {
 					System.out.println(s);
 				}
 			}
 			int nOfSolutions = Solutions.size();
-			Solutions = null;
+			Solutions = new ArrayList<>();
 			mFinalPoint = null;
+			
 			return nOfSolutions;
 			
 		}else{
-			throw new IllegalArgumentException("The point coordinates must be between 0,0 and " + pFinalPoint.getX() + "," + pFinalPoint.getY());
+			throw new IllegalArgumentException("The starting point coordinates must be between [0,0] and [" + pGridSize.getX() + "," + pGridSize.getY() +"]");
 		}
 	}
 	
